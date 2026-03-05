@@ -1,18 +1,564 @@
 <edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
     <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
-        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common" />
     </edmx:Reference>
     <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
-        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
-    </edmx:Reference>
-    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Communication.xml">
-        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI" />
     </edmx:Reference>
     <edmx:Reference Uri="/sap/opu/odata/sap/ZSB_PO_ANAL/$metadata">
-        <edmx:Include Namespace="cds_zsd_po_anal"/>
+        <edmx:Include Namespace="cds_zsd_po_anal" />
     </edmx:Reference>
     <edmx:DataServices>
         <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="local">
+            <Annotations Target="cds_zsd_po_anal.POAnalyType">
+
+                <!-- ========================================================
+                     CHART 1: Tổng giá trị PO theo tháng (Column Chart)
+                     ======================================================== -->
+                <Annotation Term="UI.Chart" Qualifier="ChartPOValueByMonth">
+                    <Record Type="UI.ChartDefinitionType">
+                        <PropertyValue Property="Title" String="Total PO Value by Month" />
+                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Column" />
+                        <PropertyValue Property="Dimensions">
+                            <Collection>
+                                <PropertyPath>CreationDate</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="DimensionAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartDimensionAttributeType">
+                                    <PropertyValue Property="Dimension" PropertyPath="CreationDate" />
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Measures">
+                            <Collection>
+                                <PropertyPath>NetAmount</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="MeasureAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartMeasureAttributeType">
+                                    <PropertyValue Property="Measure" PropertyPath="NetAmount" />
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+
+                <!-- ========================================================
+                     CHART 2: Top 5 nhà cung cấp theo số PO (Bar Chart)
+                     ======================================================== -->
+                <Annotation Term="UI.Chart" Qualifier="ChartTopVendors">
+                    <Record Type="UI.ChartDefinitionType">
+                        <PropertyValue Property="Title" String="Top 5 Vendors by PO Count" />
+                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Bar" />
+                        <PropertyValue Property="Dimensions">
+                            <Collection>
+                                <PropertyPath>VendorName</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="DimensionAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartDimensionAttributeType">
+                                    <PropertyValue Property="Dimension" PropertyPath="VendorName" />
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Measures">
+                            <Collection>
+                                <PropertyPath>POCount</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="MeasureAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartMeasureAttributeType">
+                                    <PropertyValue Property="Measure" PropertyPath="POCount" />
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+
+                <!-- ========================================================
+                     CHART 3: Tỷ lệ PO Approved vs Total (Stacked Column)
+                     ======================================================== -->
+                <Annotation Term="UI.Chart" Qualifier="ChartApprovalRate">
+                    <Record Type="UI.ChartDefinitionType">
+                        <PropertyValue Property="Title" String="PO Approval: Approved vs Total" />
+                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/ColumnStacked" />
+                        <PropertyValue Property="Dimensions">
+                            <Collection>
+                                <PropertyPath>CreationDate</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="DimensionAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartDimensionAttributeType">
+                                    <PropertyValue Property="Dimension" PropertyPath="CreationDate" />
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Measures">
+                            <Collection>
+                                <PropertyPath>ApprovedCount</PropertyPath>
+                                <PropertyPath>POCount</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="MeasureAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartMeasureAttributeType">
+                                    <PropertyValue Property="Measure" PropertyPath="ApprovedCount" />
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1" />
+                                </Record>
+                                <Record Type="UI.ChartMeasureAttributeType">
+                                    <PropertyValue Property="Measure" PropertyPath="POCount" />
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+
+                <!-- ========================================================
+                     CHART 4: Top 10 Materials đặt hàng nhiều nhất (Bar)
+                     ======================================================== -->
+                <Annotation Term="UI.Chart" Qualifier="ChartTopMaterials">
+                    <Record Type="UI.ChartDefinitionType">
+                        <PropertyValue Property="Title" String="Top 10 Most Ordered Materials" />
+                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Bar" />
+                        <PropertyValue Property="Dimensions">
+                            <Collection>
+                                <PropertyPath>Material</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="DimensionAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartDimensionAttributeType">
+                                    <PropertyValue Property="Dimension" PropertyPath="Material" />
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Measures">
+                            <Collection>
+                                <PropertyPath>POCount</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="MeasureAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartMeasureAttributeType">
+                                    <PropertyValue Property="Measure" PropertyPath="POCount" />
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+
+                <!-- ========================================================
+                     CHART 5: Số lượng PO theo FRGZU (Column Chart)
+                     ======================================================== -->
+                <Annotation Term="UI.Chart" Qualifier="ChartPOByReleaseStatus">
+                    <Record Type="UI.ChartDefinitionType">
+                        <PropertyValue Property="Title" String="PO Count by Pur Group (FRGZU)" />
+                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Column" />
+                        <PropertyValue Property="Dimensions">
+                            <Collection>
+                                <PropertyPath>ReleaseComplete</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="DimensionAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartDimensionAttributeType">
+                                    <PropertyValue Property="Dimension" PropertyPath="ReleaseComplete" />
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Measures">
+                            <Collection>
+                                <PropertyPath>POCount</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="MeasureAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartMeasureAttributeType">
+                                    <PropertyValue Property="Measure" PropertyPath="POCount" />
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1" />
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+
+                <!-- ========================================================
+                     LINE ITEM (Table columns)
+                     ======================================================== -->
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" PropertyPath="CompanyCode" />
+                            <PropertyValue Property="Label" String="Company Code" />
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" PropertyPath="Vendor" />
+                            <PropertyValue Property="Label" String="Supplier" />
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" PropertyPath="VendorName" />
+                            <PropertyValue Property="Label" String="Supplier Name" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" PropertyPath="Material" />
+                            <PropertyValue Property="Label" String="Material" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" PropertyPath="MaterialGroup" />
+                            <PropertyValue Property="Label" String="Material Group" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" PropertyPath="PurchasingGroup" />
+                            <PropertyValue Property="Label" String="Purchasing Group" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" PropertyPath="Plant" />
+                            <PropertyValue Property="Label" String="Plant" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" PropertyPath="CreationDate" />
+                            <PropertyValue Property="Label" String="Created On" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" PropertyPath="CreatedBy" />
+                            <PropertyValue Property="Label" String="Created By" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" PropertyPath="ReleaseStatus" />
+                            <PropertyValue Property="Label" String="Release Status" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" PropertyPath="ReleaseComplete" />
+                            <PropertyValue Property="Label" String="FRGZU" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" PropertyPath="Quantity" />
+                            <PropertyValue Property="Label" String="Total Quantity" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" PropertyPath="Unit" />
+                            <PropertyValue Property="Label" String="Unit" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" PropertyPath="NetAmount" />
+                            <PropertyValue Property="Label" String="Net Amount" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" PropertyPath="Currency" />
+                            <PropertyValue Property="Label" String="Currency" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" PropertyPath="POCount" />
+                            <PropertyValue Property="Label" String="PO Count" />
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" PropertyPath="ApprovedCount" />
+                            <PropertyValue Property="Label" String="Approved Count" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+
+                <!-- ========================================================
+                     PRESENTATION VARIANT (5 charts + table)
+                     Đặt chart POCount lên đầu để tránh "No data found" do mixed currency
+                     ======================================================== -->
+                <Annotation Term="UI.PresentationVariant">
+                    <Record Type="UI.PresentationVariantType">
+                        <PropertyValue Property="Visualizations">
+                            <Collection>
+                                <AnnotationPath>@UI.Chart#ChartTopVendors</AnnotationPath>
+                                <AnnotationPath>@UI.Chart#ChartPOValueByMonth</AnnotationPath>
+                                <AnnotationPath>@UI.Chart#ChartApprovalRate</AnnotationPath>
+                                <AnnotationPath>@UI.Chart#ChartTopMaterials</AnnotationPath>
+                                <AnnotationPath>@UI.Chart#ChartPOByReleaseStatus</AnnotationPath>
+                                <AnnotationPath>@UI.LineItem</AnnotationPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+
+                <!-- ========================================================
+                     SELECTION FIELDS (Filter Bar)
+                     ======================================================== -->
+                <Annotation Term="UI.SelectionFields">
+                    <Collection>
+                        <PropertyPath>CompanyCode</PropertyPath>
+                        <PropertyPath>Vendor</PropertyPath>
+                        <PropertyPath>Plant</PropertyPath>
+                        <PropertyPath>CreationDate</PropertyPath>
+                        <PropertyPath>Material</PropertyPath>
+                        <PropertyPath>MaterialGroup</PropertyPath>
+                        <PropertyPath>PurchasingGroup</PropertyPath>
+                        <PropertyPath>ReleaseComplete</PropertyPath>
+                    </Collection>
+                </Annotation>
+
+                <!-- ========================================================
+                     VISUAL FILTER CHARTS
+                     ======================================================== -->
+                <Annotation Term="UI.Chart" Qualifier="ChartFilterVendor">
+                    <Record Type="UI.ChartDefinitionType">
+                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Bar"/>
+                        <PropertyValue Property="Title" String="Filter by Vendor"/>
+                        <PropertyValue Property="Dimensions">
+                            <Collection><PropertyPath>VendorName</PropertyPath></Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Measures">
+                            <Collection><PropertyPath>POCount</PropertyPath></Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+
+                <Annotation Term="UI.Chart" Qualifier="ChartFilterPlant">
+                    <Record Type="UI.ChartDefinitionType">
+                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Donut"/>
+                        <PropertyValue Property="Title" String="Filter by Plant"/>
+                        <PropertyValue Property="Dimensions">
+                            <Collection><PropertyPath>Plant</PropertyPath></Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="DimensionAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartDimensionAttributeType">
+                                    <PropertyValue Property="Dimension" PropertyPath="Plant"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Measures">
+                            <Collection><PropertyPath>POCount</PropertyPath></Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="MeasureAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartMeasureAttributeType">
+                                    <PropertyValue Property="Measure" PropertyPath="POCount"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+
+                <Annotation Term="UI.Chart" Qualifier="ChartFilterDate">
+                    <Record Type="UI.ChartDefinitionType">
+                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Line"/>
+                        <PropertyValue Property="Title" String="Trend by Date"/>
+                        <PropertyValue Property="Dimensions">
+                            <Collection><PropertyPath>CreationDate</PropertyPath></Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="DimensionAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartDimensionAttributeType">
+                                    <PropertyValue Property="Dimension" PropertyPath="CreationDate"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Measures">
+                            <Collection><PropertyPath>POCount</PropertyPath></Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="MeasureAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartMeasureAttributeType">
+                                    <PropertyValue Property="Measure" PropertyPath="POCount"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+
+                <Annotation Term="UI.Chart" Qualifier="ChartFilterReleaseStatus">
+                    <Record Type="UI.ChartDefinitionType">
+                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Donut"/>
+                        <PropertyValue Property="Title" String="Filter by FRGZU"/>
+                        <PropertyValue Property="Dimensions">
+                            <Collection><PropertyPath>ReleaseComplete</PropertyPath></Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Measures">
+                            <Collection><PropertyPath>POCount</PropertyPath></Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+
+                <Annotation Term="UI.Chart" Qualifier="ChartFilterMaterial">
+                    <Record Type="UI.ChartDefinitionType">
+                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Bar"/>
+                        <PropertyValue Property="Title" String="Filter by Material"/>
+                        <PropertyValue Property="Dimensions">
+                            <Collection><PropertyPath>Material</PropertyPath></Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Measures">
+                            <Collection><PropertyPath>POCount</PropertyPath></Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+
+                <!-- PresentationVariants for Visual Filters -->
+                <Annotation Term="UI.PresentationVariant" Qualifier="PV_Vendor">
+                    <Record Type="UI.PresentationVariantType">
+                        <PropertyValue Property="Visualizations">
+                            <Collection><AnnotationPath>@UI.Chart#ChartFilterVendor</AnnotationPath></Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+
+                <Annotation Term="UI.PresentationVariant" Qualifier="PV_Plant">
+                    <Record Type="UI.PresentationVariantType">
+                        <PropertyValue Property="Visualizations">
+                            <Collection><AnnotationPath>@UI.Chart#ChartFilterPlant</AnnotationPath></Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+
+                <Annotation Term="UI.PresentationVariant" Qualifier="PV_Date">
+                    <Record Type="UI.PresentationVariantType">
+                        <PropertyValue Property="Visualizations">
+                            <Collection><AnnotationPath>@UI.Chart#ChartFilterDate</AnnotationPath></Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+
+                <Annotation Term="UI.PresentationVariant" Qualifier="PV_ReleaseStatus">
+                    <Record Type="UI.PresentationVariantType">
+                        <PropertyValue Property="Visualizations">
+                            <Collection><AnnotationPath>@UI.Chart#ChartFilterReleaseStatus</AnnotationPath></Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+
+                <Annotation Term="UI.PresentationVariant" Qualifier="PV_Material">
+                    <Record Type="UI.PresentationVariantType">
+                        <PropertyValue Property="Visualizations">
+                            <Collection><AnnotationPath>@UI.Chart#ChartFilterMaterial</AnnotationPath></Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+
+            </Annotations>
+
+            <!-- ========================================================
+                 VALUE LISTS (Visual Filter Bindings)
+                 ======================================================== -->
+            <Annotations Target="cds_zsd_po_anal.POAnalyType/Vendor">
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="CollectionPath" String="POAnaly"/>
+                        <PropertyValue Property="PresentationVariantQualifier" String="PV_Vendor"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Vendor"/>
+                                    <PropertyValue Property="ValueListProperty" String="Vendor"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="VendorName"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="POCount"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+
+            <Annotations Target="cds_zsd_po_anal.POAnalyType/Plant">
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="CollectionPath" String="POAnaly"/>
+                        <PropertyValue Property="PresentationVariantQualifier" String="PV_Plant"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Plant"/>
+                                    <PropertyValue Property="ValueListProperty" String="Plant"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="POCount"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+
+            <Annotations Target="cds_zsd_po_anal.POAnalyType/CreationDate">
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="CollectionPath" String="POAnaly"/>
+                        <PropertyValue Property="PresentationVariantQualifier" String="PV_Date"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="CreationDate"/>
+                                    <PropertyValue Property="ValueListProperty" String="CreationDate"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="POCount"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+
+            <Annotations Target="cds_zsd_po_anal.POAnalyType/ReleaseComplete">
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="CollectionPath" String="POAnaly"/>
+                        <PropertyValue Property="PresentationVariantQualifier" String="PV_ReleaseStatus"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="ReleaseComplete"/>
+                                    <PropertyValue Property="ValueListProperty" String="ReleaseComplete"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="POCount"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+
+            <Annotations Target="cds_zsd_po_anal.POAnalyType/Material">
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="CollectionPath" String="POAnaly"/>
+                        <PropertyValue Property="PresentationVariantQualifier" String="PV_Material"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Material"/>
+                                    <PropertyValue Property="ValueListProperty" String="Material"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="POCount"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+
         </Schema>
     </edmx:DataServices>
 </edmx:Edmx>

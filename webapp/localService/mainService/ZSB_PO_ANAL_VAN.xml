@@ -26,66 +26,33 @@
     </edmx:Reference>
     <edmx:DataServices>
         <Schema Namespace="zsb_po_anal_van.v1" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <Annotations Target="cds_zsd_po_anal.POAnalyType/ID">
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
             <Annotations Target="cds_zsd_po_anal.POAnalyType">
                 <Annotation Term="UI.Chart" Qualifier="ChartPoByVendor">
-                    <Record Type="UI.ChartDefinitionType">
-                        <PropertyValue Property="Title" String="Purchase Value by Vendor"/>
-                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Column"/>
-                        <PropertyValue Property="Dimensions">
-                            <Collection>
-                                <PropertyPath>VendorName</PropertyPath>
-                            </Collection>
-                        </PropertyValue>
-                        <PropertyValue Property="DimensionAttributes">
-                            <Collection>
-                                <Record Type="UI.ChartDimensionAttributeType">
-                                    <PropertyValue Property="Dimension" PropertyPath="VendorName"/>
-                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category"/>
-                                </Record>
-                            </Collection>
-                        </PropertyValue>
-                        <PropertyValue Property="Measures">
-                            <Collection>
-                                <PropertyPath>NetValue</PropertyPath>
-                            </Collection>
-                        </PropertyValue>
-                        <PropertyValue Property="MeasureAttributes">
-                            <Collection>
-                                <Record Type="UI.ChartMeasureAttributeType">
-                                    <PropertyValue Property="Measure" PropertyPath="NetValue"/>
-                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1"/>
-                                </Record>
-                            </Collection>
-                        </PropertyValue>
-                    </Record>
-                </Annotation>
-                <Annotation Term="UI.DataPoint" Qualifier="NetValue">
-                    <Record>
-                        <PropertyValue Property="Value" Path="NetValue"/>
-                        <PropertyValue Property="Title" String=""/>
-                    </Record>
+                    <Annotation Term="Core.Messages">
+                        <Collection>
+                            <Record>
+                                <PropertyValue Property="message" String="Eigenschaft 'NetValue' von Annotation 'UI.CHART$1$.MEASURES$1$' in Proj./View 'POAnaly' nicht gefunden"/>
+                                <PropertyValue Property="severity" String="error"/>
+                            </Record>
+                        </Collection>
+                    </Annotation>
                 </Annotation>
                 <Annotation Term="UI.LineItem">
                     <Collection>
                         <Record Type="UI.DataField">
                             <PropertyValue Property="Label" String=""/>
-                            <PropertyValue Property="Value" Path="PurchaseOrder"/>
+                            <PropertyValue Property="Value" Path="CompanyCode"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String=""/>
+                            <PropertyValue Property="Value" Path="Vendor"/>
                         </Record>
                         <Record Type="UI.DataField">
                             <PropertyValue Property="Label" String=""/>
                             <PropertyValue Property="Value" Path="VendorName"/>
-                        </Record>
-                        <Record Type="UI.DataField">
-                            <PropertyValue Property="Label" String=""/>
-                            <PropertyValue Property="Value" Path="MaterialDescription"/>
-                        </Record>
-                        <Record Type="UI.DataField">
-                            <PropertyValue Property="Label" String=""/>
-                            <PropertyValue Property="Value" Path="Quantity"/>
-                        </Record>
-                        <Record Type="UI.DataField">
-                            <PropertyValue Property="Label" String=""/>
-                            <PropertyValue Property="Value" Path="NetValue"/>
                         </Record>
                         <Record Type="UI.DataField">
                             <PropertyValue Property="Label" String=""/>
@@ -110,6 +77,9 @@
                 <Annotation Term="UI.SelectionFields">
                     <Collection>
                         <PropertyPath>VendorName</PropertyPath>
+                        <PropertyPath>Plant</PropertyPath>
+                        <PropertyPath>Vendor</PropertyPath>
+                        <PropertyPath>CompanyCode</PropertyPath>
                     </Collection>
                 </Annotation>
             </Annotations>

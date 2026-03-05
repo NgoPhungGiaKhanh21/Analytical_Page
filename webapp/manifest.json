@@ -1,157 +1,160 @@
 {
-  "_version": "1.48.0",
-  "sap.app": {
-    "id": "dashboard",
-    "type": "application",
-    "i18n": "i18n/i18n.properties",
-    "applicationVersion": {
-      "version": "0.0.1"
-    },
-    "title": "{{appTitle}}",
-    "description": "{{appDescription}}",
-    "resources": "resources.json",
-    "sourceTemplate": {
-      "id": "@sap/generator-fiori:alp",
-      "version": "1.20.2",
-      "toolsId": "bc94a43d-8043-43b1-a288-78cd41de7353"
-    },
-    "dataSources": {
-      "ZSB_PO_ANAL_VAN": {
-        "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZSB_PO_ANAL_VAN',Version='0001')/$value/",
-        "type": "ODataAnnotation",
-        "settings": {
-          "localUri": "localService/mainService/ZSB_PO_ANAL_VAN.xml"
-        }
-      },
-      "annotation": {
-        "type": "ODataAnnotation",
-        "uri": "annotations/annotation.xml",
-        "settings": {
-          "localUri": "annotations/annotation.xml"
-        }
-      },
-      "mainService": {
-        "uri": "/sap/opu/odata/sap/ZSB_PO_ANAL/",
-        "type": "OData",
-        "settings": {
-          "annotations": [
-            "ZSB_PO_ANAL_VAN",
-            "annotation"
-          ],
-          "localUri": "localService/mainService/metadata.xml",
-          "odataVersion": "2.0"
-        }
-      }
-    }
-  },
-  "sap.ui": {
-    "technology": "UI5",
-    "icons": {
-      "icon": "",
-      "favIcon": "",
-      "phone": "",
-      "phone@2": "",
-      "tablet": "",
-      "tablet@2": ""
-    },
-    "deviceTypes": {
-      "desktop": true,
-      "tablet": true,
-      "phone": true
-    }
-  },
-  "sap.ui5": {
-    "flexEnabled": true,
-    "dependencies": {
-      "minUI5Version": "1.108.33",
-      "libs": {
-        "sap.m": {},
-        "sap.ui.core": {},
-        "sap.ushell": {},
-        "sap.f": {},
-        "sap.ui.comp": {},
-        "sap.ui.generic.app": {},
-        "sap.suite.ui.generic.template": {}
-      }
-    },
-    "contentDensities": {
-      "compact": true,
-      "cozy": true
-    },
-    "models": {
-      "i18n": {
-        "type": "sap.ui.model.resource.ResourceModel",
-        "settings": {
-          "bundleName": "dashboard.i18n.i18n"
-        }
-      },
-      "": {
-        "dataSource": "mainService",
-        "preload": true,
-        "settings": {
-          "defaultBindingMode": "TwoWay",
-          "defaultCountMode": "Inline",
-          "refreshAfterChange": false,
-          "metadataUrlParams": {
-            "sap-value-list": "none"
-          }
-        }
-      },
-      "@i18n": {
-        "type": "sap.ui.model.resource.ResourceModel",
-        "uri": "i18n/i18n.properties"
-      }
-    },
-    "resources": {
-      "css": []
-    },
-    "routing": {
-      "config": {},
-      "routes": [],
-      "targets": {}
-    }
-  },
-  "sap.ui.generic.app": {
-    "_version": "1.3.0",
-    "settings": {
-      "forceGlobalRefresh": false,
-      "objectPageHeaderType": "Dynamic",
-      "considerAnalyticalParameters": true,
-      "showDraftToggle": false
-    },
-    "pages": {
-      "AnalyticalListPage|POAnaly": {  
-        "entitySet": "POAnaly",  
-        "component": {
-          "name": "sap.suite.ui.generic.template.AnalyticalListPage",
-          "list": true,
-          "settings": {
-            "condensedTableLayout": true,
-            "showGoButtonOnFilterBar": true,
-            "tableType": "ResponsiveTable",
-            "autoHide": true,
-            "smartVariantManagement": false,
-            "presentationVariantQualifier": "DefaultPresentation",  
-            "tableSettings": {
-              "multiSelect": false
+    "_version": "1.48.0",
+    "sap.app": {
+        "id": "dashboard",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "0.0.1"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "@sap/generator-fiori:alp",
+            "version": "1.20.2",
+            "toolsId": "bc94a43d-8043-43b1-a288-78cd41de7353"
+        },
+        "dataSources": {
+            "ZSB_PO_ANAL_VAN": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZSB_PO_ANAL_VAN',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/mainService/ZSB_PO_ANAL_VAN.xml"
+                }
             },
-            "keyPerformanceIndicators": {}
-          }
+            "annotation": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation.xml",
+                "settings": {
+                    "localUri": "annotations/annotation.xml"
+                }
+            },
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/ZSB_PO_ANAL/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [
+                        "annotation"
+                    ],
+                    "localUri": "localService/mainService/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": true,
+        "dependencies": {
+            "minUI5Version": "1.108.33",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {},
+                "sap.ushell": {},
+                "sap.f": {},
+                "sap.ui.comp": {},
+                "sap.ui.generic.app": {},
+                "sap.suite.ui.generic.template": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "dashboard.i18n.i18n",
+                    "supportedLocales": [
+                        "en"
+                    ],
+                    "fallbackLocale": "en"
+                }
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "resources": {
+            "css": []
+        },
+        "routing": {
+            "config": {},
+            "routes": [],
+            "targets": {}
+        }
+    },
+    "sap.ui.generic.app": {
+        "_version": "1.3.0",
+        "settings": {
+            "forceGlobalRefresh": false,
+            "objectPageHeaderType": "Dynamic",
+            "considerAnalyticalParameters": true,
+            "showDraftToggle": false
         },
         "pages": {
-          "ObjectPage|POAnaly": {  
-            "entitySet": "POAnaly",  
-            "defaultLayoutTypeIfExternalNavigation": "MidColumnFullScreen",
-            "component": {
-              "name": "sap.suite.ui.generic.template.ObjectPage"
+            "AnalyticalListPage|POAnaly": {
+                "entitySet": "POAnaly",
+                "component": {
+                    "name": "sap.suite.ui.generic.template.AnalyticalListPage",
+                    "list": true,
+                    "settings": {
+                        "condensedTableLayout": true,
+                        "showGoButtonOnFilterBar": true,
+                        "tableType": "ResponsiveTable",
+                        "autoHide": true,
+                        "smartVariantManagement": false,
+                        "presentationVariantQualifier": "DefaultPresentation",
+                        "tableSettings": {
+                            "multiSelect": false
+                        },
+                        "keyPerformanceIndicators": {}
+                    }
+                },
+                "pages": {
+                    "ObjectPage|POAnaly": {
+                        "entitySet": "POAnaly",
+                        "defaultLayoutTypeIfExternalNavigation": "MidColumnFullScreen",
+                        "component": {
+                            "name": "sap.suite.ui.generic.template.ObjectPage"
+                        }
+                    }
+                }
             }
-          }
         }
-      }
+    },
+    "sap.fiori": {
+        "registrationIds": [],
+        "archeType": "analytical"
     }
-  },
-  "sap.fiori": {
-    "registrationIds": [],
-    "archeType": "analytical"
-  }
 }
