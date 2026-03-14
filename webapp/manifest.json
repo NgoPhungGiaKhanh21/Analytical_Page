@@ -98,6 +98,19 @@
                     "metadataUrlParams": {
                         "sap-value-list": "none"
                     }
+                },
+                "crossNavigation": {
+                    "inbounds": {
+                        "Dashboard-inbound": {
+                            "semanticObject": "PurchaseOrder",
+                            "action": "analyze",
+                            "title": "{{appTitle}}",
+                            "signature": {
+                                "parameters": {},
+                                "additionalParameters": "allowed"
+                            }
+                        }
+                    }
                 }
             },
             "@i18n": {
