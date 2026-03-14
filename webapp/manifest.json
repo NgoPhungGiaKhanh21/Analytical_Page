@@ -41,6 +41,19 @@
                     "odataVersion": "2.0"
                 }
             }
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "Dashboard-inbound": {
+                    "semanticObject": "ZSO_PO_F15200",
+                    "action": "display",
+                    "title": "{{appTitle}}",
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    }
+                }
+            }
         }
     },
     "sap.ui": {
@@ -97,19 +110,6 @@
                     "refreshAfterChange": false,
                     "metadataUrlParams": {
                         "sap-value-list": "none"
-                    }
-                },
-                "crossNavigation": {
-                    "inbounds": {
-                        "Dashboard-inbound": {
-                            "semanticObject": "ZSO_PO_F15200",
-                            "action": "display",
-                            "title": "{{appTitle}}",
-                            "signature": {
-                                "parameters": {},
-                                "additionalParameters": "allowed"
-                            }
-                        }
                     }
                 }
             },
