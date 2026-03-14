@@ -102,8 +102,8 @@
                 "crossNavigation": {
                     "inbounds": {
                         "Dashboard-inbound": {
-                            "semanticObject": "PurchaseOrder",
-                            "action": "analyze",
+                            "semanticObject": "ZSO_PO_F15200",
+                            "action": "display",
                             "title": "{{appTitle}}",
                             "signature": {
                                 "parameters": {},
