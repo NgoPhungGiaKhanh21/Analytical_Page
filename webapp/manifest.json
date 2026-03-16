@@ -157,6 +157,7 @@
                         "showGoButtonOnFilterBar": true,
                         "autoHide": true,
                         "smartVariantManagement": true,
+                        "considerSelectionVariant": true,   
                         "tableSettings": {
                             "multiSelect": false,
                             "type": "ResponsiveTable"
