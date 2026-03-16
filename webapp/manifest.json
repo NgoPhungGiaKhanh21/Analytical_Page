@@ -60,7 +60,8 @@
                                 "required": false
                             }
                         }
-                    }
+                    },
+                    "additionalParameters": "allowed"
                 }
             }
         }
@@ -154,11 +155,11 @@
                         "autoSearch": true,
                         "condensedTableLayout": true,
                         "showGoButtonOnFilterBar": true,
-                        "tableType": "ResponsiveTable",
                         "autoHide": true,
-                        "smartVariantManagement": false,
+                        "smartVariantManagement": true,
                         "tableSettings": {
-                            "multiSelect": false
+                            "multiSelect": false,
+                            "type": "ResponsiveTable"
                         },
                         "keyPerformanceIndicators": {}
                     }
