@@ -35,6 +35,7 @@
                 "type": "OData",
                 "settings": {
                     "annotations": [
+                        "ZSB_PO_ANAL_VAN",
                         "annotation"
                     ],
                     "localUri": "localService/mainService/metadata.xml",
@@ -44,13 +45,21 @@
         },
         "crossNavigation": {
             "inbounds": {
-                "Dashboard-inbound": {
+                "ZSO_PO_F15200-display": {
                     "semanticObject": "ZSO_PO_F15200",
                     "action": "display",
-                    "title": "{{appTitle}}",
                     "signature": {
-                        "parameters": {},
-                        "additionalParameters": "allowed"
+                        "parameters": {
+                            "CompanyCode": {
+                                "required": false
+                            },
+                            "Currency": {
+                                "required": false
+                            },
+                            "Supplier": {
+                                "required": false
+                            }
+                        }
                     }
                 }
             }
@@ -132,7 +141,7 @@
         "settings": {
             "forceGlobalRefresh": false,
             "objectPageHeaderType": "Dynamic",
-            "considerAnalyticalParameters": true,
+            "considerAnalyticalParameters": false,
             "showDraftToggle": false
         },
         "pages": {
@@ -142,12 +151,12 @@
                     "name": "sap.suite.ui.generic.template.AnalyticalListPage",
                     "list": true,
                     "settings": {
+                        "autoSearch": true,
                         "condensedTableLayout": true,
                         "showGoButtonOnFilterBar": true,
                         "tableType": "ResponsiveTable",
                         "autoHide": true,
                         "smartVariantManagement": false,
-                        "presentationVariantQualifier": "DefaultPresentation",
                         "tableSettings": {
                             "multiSelect": false
                         },

@@ -57,13 +57,15 @@
                         <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Bar" />
                         <PropertyValue Property="Dimensions">
                             <Collection>
-                                <PropertyPath>VendorName</PropertyPath>
+                                <!-- Đã sửa: VendorName -> SupplierName -->
+                                <PropertyPath>SupplierName</PropertyPath>
                             </Collection>
                         </PropertyValue>
                         <PropertyValue Property="DimensionAttributes">
                             <Collection>
                                 <Record Type="UI.ChartDimensionAttributeType">
-                                    <PropertyValue Property="Dimension" PropertyPath="VendorName" />
+                                    <!-- Đã sửa: VendorName -> SupplierName -->
+                                    <PropertyValue Property="Dimension" PropertyPath="SupplierName" />
                                     <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category" />
                                 </Record>
                             </Collection>
@@ -208,12 +210,14 @@
                             <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High" />
                         </Record>
                         <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" PropertyPath="Vendor" />
+                            <!-- Đã sửa: Vendor -> Supplier -->
+                            <PropertyValue Property="Value" PropertyPath="Supplier" />
                             <PropertyValue Property="Label" String="Supplier" />
                             <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High" />
                         </Record>
                         <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" PropertyPath="VendorName" />
+                            <!-- Đã sửa: VendorName -> SupplierName -->
+                            <PropertyValue Property="Value" PropertyPath="SupplierName" />
                             <PropertyValue Property="Label" String="Supplier Name" />
                         </Record>
                         <Record Type="UI.DataField">
@@ -277,7 +281,6 @@
 
                 <!-- ========================================================
                      PRESENTATION VARIANT (5 charts + table)
-                     Đặt chart POCount lên đầu để tránh "No data found" do mixed currency
                      ======================================================== -->
                 <Annotation Term="UI.PresentationVariant">
                     <Record Type="UI.PresentationVariantType">
@@ -299,44 +302,35 @@
                      ======================================================== -->
                 <Annotation Term="UI.SelectionFields">
                     <Collection>
+                        <!-- ĐÃ THÊM: Bắt buộc phải có để OVP truyền Supplier sang ALP -->
+                        <PropertyPath>Supplier</PropertyPath>
+                        <PropertyPath>Currency</PropertyPath>
                         <PropertyPath>CompanyCode</PropertyPath>
-                        <PropertyPath>Vendor</PropertyPath>
-                        <PropertyPath>Plant</PropertyPath>
-                        <PropertyPath>CreationDate</PropertyPath>
-                        <PropertyPath>Material</PropertyPath>
+                        <PropertyPath>PlantVendor</PropertyPath>
+                        <PropertyPath>DateVendor</PropertyPath>
+                        <PropertyPath>MatVendor</PropertyPath>
+                        <PropertyPath>RelVendor</PropertyPath>
                         <PropertyPath>MaterialGroup</PropertyPath>
                         <PropertyPath>PurchasingGroup</PropertyPath>
-                        <PropertyPath>ReleaseComplete</PropertyPath>
                     </Collection>
                 </Annotation>
 
                 <!-- ========================================================
-                     VISUAL FILTER CHARTS
+                     VISUAL FILTER CHARTS (4 Biểu đồ)
                      ======================================================== -->
-                <Annotation Term="UI.Chart" Qualifier="ChartFilterVendor">
-                    <Record Type="UI.ChartDefinitionType">
-                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Bar"/>
-                        <PropertyValue Property="Title" String="Filter by Vendor"/>
-                        <PropertyValue Property="Dimensions">
-                            <Collection><PropertyPath>VendorName</PropertyPath></Collection>
-                        </PropertyValue>
-                        <PropertyValue Property="Measures">
-                            <Collection><PropertyPath>POCount</PropertyPath></Collection>
-                        </PropertyValue>
-                    </Record>
-                </Annotation>
-
-                <Annotation Term="UI.Chart" Qualifier="ChartFilterPlant">
+                     
+                <!-- 1. Plant & Vendor (Donut) -->
+                <Annotation Term="UI.Chart" Qualifier="ChartFilterPlantVendor">
                     <Record Type="UI.ChartDefinitionType">
                         <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Donut"/>
-                        <PropertyValue Property="Title" String="Filter by Plant"/>
+                        <PropertyValue Property="Title" String="Filter by Plant &amp; Vendor"/>
                         <PropertyValue Property="Dimensions">
-                            <Collection><PropertyPath>Plant</PropertyPath></Collection>
+                            <Collection><PropertyPath>PlantVendor</PropertyPath></Collection>
                         </PropertyValue>
                         <PropertyValue Property="DimensionAttributes">
                             <Collection>
                                 <Record Type="UI.ChartDimensionAttributeType">
-                                    <PropertyValue Property="Dimension" PropertyPath="Plant"/>
+                                    <PropertyValue Property="Dimension" PropertyPath="PlantVendor"/>
                                     <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category"/>
                                 </Record>
                             </Collection>
@@ -355,17 +349,18 @@
                     </Record>
                 </Annotation>
 
-                <Annotation Term="UI.Chart" Qualifier="ChartFilterDate">
+                <!-- 2. Date & Vendor (Line) -->
+                <Annotation Term="UI.Chart" Qualifier="ChartFilterDateVendor">
                     <Record Type="UI.ChartDefinitionType">
                         <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Line"/>
-                        <PropertyValue Property="Title" String="Trend by Date"/>
+                        <PropertyValue Property="Title" String="Trend by Date &amp; Vendor"/>
                         <PropertyValue Property="Dimensions">
-                            <Collection><PropertyPath>CreationDate</PropertyPath></Collection>
+                            <Collection><PropertyPath>DateVendor</PropertyPath></Collection>
                         </PropertyValue>
                         <PropertyValue Property="DimensionAttributes">
                             <Collection>
                                 <Record Type="UI.ChartDimensionAttributeType">
-                                    <PropertyValue Property="Dimension" PropertyPath="CreationDate"/>
+                                    <PropertyValue Property="Dimension" PropertyPath="DateVendor"/>
                                     <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category"/>
                                 </Record>
                             </Collection>
@@ -384,69 +379,95 @@
                     </Record>
                 </Annotation>
 
-                <Annotation Term="UI.Chart" Qualifier="ChartFilterReleaseStatus">
+                <!-- 3. Release (FRGZU) & Vendor (Donut) -->
+                <Annotation Term="UI.Chart" Qualifier="ChartFilterRelVendor">
                     <Record Type="UI.ChartDefinitionType">
                         <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Donut"/>
-                        <PropertyValue Property="Title" String="Filter by FRGZU"/>
+                        <PropertyValue Property="Title" String="Filter by FRGZU &amp; Vendor"/>
                         <PropertyValue Property="Dimensions">
-                            <Collection><PropertyPath>ReleaseComplete</PropertyPath></Collection>
+                            <Collection><PropertyPath>RelVendor</PropertyPath></Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="DimensionAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartDimensionAttributeType">
+                                    <PropertyValue Property="Dimension" PropertyPath="RelVendor"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category"/>
+                                </Record>
+                            </Collection>
                         </PropertyValue>
                         <PropertyValue Property="Measures">
                             <Collection><PropertyPath>POCount</PropertyPath></Collection>
                         </PropertyValue>
+                        <PropertyValue Property="MeasureAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartMeasureAttributeType">
+                                    <PropertyValue Property="Measure" PropertyPath="POCount"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
                     </Record>
                 </Annotation>
 
-                <Annotation Term="UI.Chart" Qualifier="ChartFilterMaterial">
+                <!-- 4. Material & Vendor (Bar) -->
+                <Annotation Term="UI.Chart" Qualifier="ChartFilterMatVendor">
                     <Record Type="UI.ChartDefinitionType">
                         <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Bar"/>
-                        <PropertyValue Property="Title" String="Filter by Material"/>
+                        <PropertyValue Property="Title" String="Filter by Material &amp; Vendor"/>
                         <PropertyValue Property="Dimensions">
-                            <Collection><PropertyPath>Material</PropertyPath></Collection>
+                            <Collection><PropertyPath>MatVendor</PropertyPath></Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="DimensionAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartDimensionAttributeType">
+                                    <PropertyValue Property="Dimension" PropertyPath="MatVendor"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category"/>
+                                </Record>
+                            </Collection>
                         </PropertyValue>
                         <PropertyValue Property="Measures">
                             <Collection><PropertyPath>POCount</PropertyPath></Collection>
                         </PropertyValue>
-                    </Record>
-                </Annotation>
-
-                <!-- PresentationVariants for Visual Filters -->
-                <Annotation Term="UI.PresentationVariant" Qualifier="PV_Vendor">
-                    <Record Type="UI.PresentationVariantType">
-                        <PropertyValue Property="Visualizations">
-                            <Collection><AnnotationPath>@UI.Chart#ChartFilterVendor</AnnotationPath></Collection>
+                        <PropertyValue Property="MeasureAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartMeasureAttributeType">
+                                    <PropertyValue Property="Measure" PropertyPath="POCount"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1"/>
+                                </Record>
+                            </Collection>
                         </PropertyValue>
                     </Record>
                 </Annotation>
 
-                <Annotation Term="UI.PresentationVariant" Qualifier="PV_Plant">
+                <!-- PresentationVariants cho Visual Filters -->
+                <Annotation Term="UI.PresentationVariant" Qualifier="PV_PlantVendor">
                     <Record Type="UI.PresentationVariantType">
                         <PropertyValue Property="Visualizations">
-                            <Collection><AnnotationPath>@UI.Chart#ChartFilterPlant</AnnotationPath></Collection>
+                            <Collection><AnnotationPath>@UI.Chart#ChartFilterPlantVendor</AnnotationPath></Collection>
                         </PropertyValue>
                     </Record>
                 </Annotation>
 
-                <Annotation Term="UI.PresentationVariant" Qualifier="PV_Date">
+                <Annotation Term="UI.PresentationVariant" Qualifier="PV_DateVendor">
                     <Record Type="UI.PresentationVariantType">
                         <PropertyValue Property="Visualizations">
-                            <Collection><AnnotationPath>@UI.Chart#ChartFilterDate</AnnotationPath></Collection>
+                            <Collection><AnnotationPath>@UI.Chart#ChartFilterDateVendor</AnnotationPath></Collection>
                         </PropertyValue>
                     </Record>
                 </Annotation>
 
-                <Annotation Term="UI.PresentationVariant" Qualifier="PV_ReleaseStatus">
+                <Annotation Term="UI.PresentationVariant" Qualifier="PV_RelVendor">
                     <Record Type="UI.PresentationVariantType">
                         <PropertyValue Property="Visualizations">
-                            <Collection><AnnotationPath>@UI.Chart#ChartFilterReleaseStatus</AnnotationPath></Collection>
+                            <Collection><AnnotationPath>@UI.Chart#ChartFilterRelVendor</AnnotationPath></Collection>
                         </PropertyValue>
                     </Record>
                 </Annotation>
 
-                <Annotation Term="UI.PresentationVariant" Qualifier="PV_Material">
+                <Annotation Term="UI.PresentationVariant" Qualifier="PV_MatVendor">
                     <Record Type="UI.PresentationVariantType">
                         <PropertyValue Property="Visualizations">
-                            <Collection><AnnotationPath>@UI.Chart#ChartFilterMaterial</AnnotationPath></Collection>
+                            <Collection><AnnotationPath>@UI.Chart#ChartFilterMatVendor</AnnotationPath></Collection>
                         </PropertyValue>
                     </Record>
                 </Annotation>
@@ -454,21 +475,24 @@
             </Annotations>
 
             <!-- ========================================================
-                 VALUE LISTS (Visual Filter Bindings)
+                 VALUE LISTS & TEXT DISPLAY TÙY CHỈNH CHO FILTER 
+                 (Phần bạn cần chú ý nhất - Đã thêm Text và TextArrangement)
                  ======================================================== -->
-            <Annotations Target="cds_zsd_po_anal.POAnalyType/Vendor">
+                 
+            <Annotations Target="cds_zsd_po_anal.POAnalyType/PlantVendor">
+                <!-- Chỗ này giúp Fiori chỉ hiển thị chữ Plant ngắn gọn thay vì nguyên cụm PlantVendor dài thòng -->
+                <Annotation Term="Common.Text" Path="Plant">
+                    <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly" />
+                </Annotation>
                 <Annotation Term="Common.ValueList">
                     <Record Type="Common.ValueListType">
                         <PropertyValue Property="CollectionPath" String="POAnaly"/>
-                        <PropertyValue Property="PresentationVariantQualifier" String="PV_Vendor"/>
+                        <PropertyValue Property="PresentationVariantQualifier" String="PV_PlantVendor"/>
                         <PropertyValue Property="Parameters">
                             <Collection>
                                 <Record Type="Common.ValueListParameterInOut">
-                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Vendor"/>
-                                    <PropertyValue Property="ValueListProperty" String="Vendor"/>
-                                </Record>
-                                <Record Type="Common.ValueListParameterDisplayOnly">
-                                    <PropertyValue Property="ValueListProperty" String="VendorName"/>
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="PlantVendor"/>
+                                    <PropertyValue Property="ValueListProperty" String="PlantVendor"/>
                                 </Record>
                                 <Record Type="Common.ValueListParameterDisplayOnly">
                                     <PropertyValue Property="ValueListProperty" String="POCount"/>
@@ -479,16 +503,20 @@
                 </Annotation>
             </Annotations>
 
-            <Annotations Target="cds_zsd_po_anal.POAnalyType/Plant">
+            <Annotations Target="cds_zsd_po_anal.POAnalyType/DateVendor">
+                <!-- Chỗ này hiển thị ngày thay vì Date-Vendor -->
+                <Annotation Term="Common.Text" Path="CreationDate">
+                    <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly" />
+                </Annotation>
                 <Annotation Term="Common.ValueList">
                     <Record Type="Common.ValueListType">
                         <PropertyValue Property="CollectionPath" String="POAnaly"/>
-                        <PropertyValue Property="PresentationVariantQualifier" String="PV_Plant"/>
+                        <PropertyValue Property="PresentationVariantQualifier" String="PV_DateVendor"/>
                         <PropertyValue Property="Parameters">
                             <Collection>
                                 <Record Type="Common.ValueListParameterInOut">
-                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Plant"/>
-                                    <PropertyValue Property="ValueListProperty" String="Plant"/>
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="DateVendor"/>
+                                    <PropertyValue Property="ValueListProperty" String="DateVendor"/>
                                 </Record>
                                 <Record Type="Common.ValueListParameterDisplayOnly">
                                     <PropertyValue Property="ValueListProperty" String="POCount"/>
@@ -499,16 +527,20 @@
                 </Annotation>
             </Annotations>
 
-            <Annotations Target="cds_zsd_po_anal.POAnalyType/CreationDate">
+            <Annotations Target="cds_zsd_po_anal.POAnalyType/RelVendor">
+                <!-- Chỗ này hiển thị Release (FRGZU) thay vì Rel-Vendor -->
+                <Annotation Term="Common.Text" Path="ReleaseComplete">
+                    <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly" />
+                </Annotation>
                 <Annotation Term="Common.ValueList">
                     <Record Type="Common.ValueListType">
                         <PropertyValue Property="CollectionPath" String="POAnaly"/>
-                        <PropertyValue Property="PresentationVariantQualifier" String="PV_Date"/>
+                        <PropertyValue Property="PresentationVariantQualifier" String="PV_RelVendor"/>
                         <PropertyValue Property="Parameters">
                             <Collection>
                                 <Record Type="Common.ValueListParameterInOut">
-                                    <PropertyValue Property="LocalDataProperty" PropertyPath="CreationDate"/>
-                                    <PropertyValue Property="ValueListProperty" String="CreationDate"/>
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="RelVendor"/>
+                                    <PropertyValue Property="ValueListProperty" String="RelVendor"/>
                                 </Record>
                                 <Record Type="Common.ValueListParameterDisplayOnly">
                                     <PropertyValue Property="ValueListProperty" String="POCount"/>
@@ -519,36 +551,20 @@
                 </Annotation>
             </Annotations>
 
-            <Annotations Target="cds_zsd_po_anal.POAnalyType/ReleaseComplete">
-                <Annotation Term="Common.ValueList">
-                    <Record Type="Common.ValueListType">
-                        <PropertyValue Property="CollectionPath" String="POAnaly"/>
-                        <PropertyValue Property="PresentationVariantQualifier" String="PV_ReleaseStatus"/>
-                        <PropertyValue Property="Parameters">
-                            <Collection>
-                                <Record Type="Common.ValueListParameterInOut">
-                                    <PropertyValue Property="LocalDataProperty" PropertyPath="ReleaseComplete"/>
-                                    <PropertyValue Property="ValueListProperty" String="ReleaseComplete"/>
-                                </Record>
-                                <Record Type="Common.ValueListParameterDisplayOnly">
-                                    <PropertyValue Property="ValueListProperty" String="POCount"/>
-                                </Record>
-                            </Collection>
-                        </PropertyValue>
-                    </Record>
+            <Annotations Target="cds_zsd_po_anal.POAnalyType/MatVendor">
+                <!-- Chỗ này hiển thị Material thay vì Material-Vendor -->
+                <Annotation Term="Common.Text" Path="Material">
+                    <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly" />
                 </Annotation>
-            </Annotations>
-
-            <Annotations Target="cds_zsd_po_anal.POAnalyType/Material">
                 <Annotation Term="Common.ValueList">
                     <Record Type="Common.ValueListType">
                         <PropertyValue Property="CollectionPath" String="POAnaly"/>
-                        <PropertyValue Property="PresentationVariantQualifier" String="PV_Material"/>
+                        <PropertyValue Property="PresentationVariantQualifier" String="PV_MatVendor"/>
                         <PropertyValue Property="Parameters">
                             <Collection>
                                 <Record Type="Common.ValueListParameterInOut">
-                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Material"/>
-                                    <PropertyValue Property="ValueListProperty" String="Material"/>
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="MatVendor"/>
+                                    <PropertyValue Property="ValueListProperty" String="MatVendor"/>
                                 </Record>
                                 <Record Type="Common.ValueListParameterDisplayOnly">
                                     <PropertyValue Property="ValueListProperty" String="POCount"/>
