@@ -156,7 +156,7 @@
                         "condensedTableLayout": true,
                         "showGoButtonOnFilterBar": true,
                         "autoHide": true,
-                        "smartVariantManagement": true,
+                        "smartVariantManagement": false,
                         "considerSelectionVariant": true,
                         "tableSettings": {
                             "multiSelect": false,
