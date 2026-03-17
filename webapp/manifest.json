@@ -59,9 +59,9 @@
                             "Supplier": {
                                 "required": false
                             }
-                        }
-                    },
-                    "additionalParameters": "allowed"
+                        },
+                        "additionalParameters": "allowed"
+                    }
                 }
             }
         }
@@ -142,7 +142,7 @@
         "settings": {
             "forceGlobalRefresh": false,
             "objectPageHeaderType": "Dynamic",
-            "considerAnalyticalParameters": false,
+            "considerAnalyticalParameters": true,
             "showDraftToggle": false
         },
         "pages": {
@@ -157,7 +157,7 @@
                         "showGoButtonOnFilterBar": true,
                         "autoHide": true,
                         "smartVariantManagement": true,
-                        "considerSelectionVariant": true,   
+                        "considerSelectionVariant": true,
                         "tableSettings": {
                             "multiSelect": false,
                             "type": "ResponsiveTable"
