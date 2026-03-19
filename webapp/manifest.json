@@ -142,7 +142,7 @@
         "settings": {
             "forceGlobalRefresh": false,
             "objectPageHeaderType": "Dynamic",
-            "considerAnalyticalParameters": true,
+            "considerAnalyticalParameters": false,
             "showDraftToggle": false
         },
         "pages": {
