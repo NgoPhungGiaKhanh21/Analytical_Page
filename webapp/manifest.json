@@ -58,6 +58,18 @@
                             },
                             "Supplier": {
                                 "required": false
+                            },
+                            "CreatedDate": {
+                                "renameTo": "CreationDate"
+                            },
+                            "PurchGroup": {
+                                "renameTo": "PurchasingGroup"
+                            },
+                            "Material": {
+                                "required": false
+                            },
+                            "CreatedBy": {
+                                "required": false
                             }
                         },
                         "additionalParameters": "allowed"
@@ -142,7 +154,7 @@
         "settings": {
             "forceGlobalRefresh": false,
             "objectPageHeaderType": "Dynamic",
-            "considerAnalyticalParameters": false,
+            "considerAnalyticalParameters": true,
             "showDraftToggle": false
         },
         "pages": {

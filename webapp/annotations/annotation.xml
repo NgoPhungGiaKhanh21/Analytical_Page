@@ -1,3 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ════════════════════════════════════════════════════════════
+  EDMX Annotation File – ZSB_PO_ANAL  (ZSD_PO_ANAL service)
+  Mục đích: Bổ sung & ghi đè annotation cho ALP + Visual Filters
+  
+  ĐÃ XOÁ:  UI.PresentationVariant default (không qualifier)
+            → Đã chuyển vào CDS ZC_PO_ANAL để tránh conflict
+  GIỮ LẠI: Visual filter charts, PresentationVariant cho từng filter,
+            SelectionFields, LineItem
+  ════════════════════════════════════════════════════════════
+-->
 <edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
     <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
         <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common" />
@@ -10,198 +22,14 @@
     </edmx:Reference>
     <edmx:DataServices>
         <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="local">
+
             <Annotations Target="cds_zsd_po_anal.POAnalyType">
 
-                <!-- ========================================================
-                     CHART 1: Tổng giá trị PO theo tháng (Column Chart)
-                     ======================================================== -->
-                <Annotation Term="UI.Chart" Qualifier="ChartPOValueByMonth">
-                    <Record Type="UI.ChartDefinitionType">
-                        <PropertyValue Property="Title" String="Total PO Value by Month" />
-                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Column" />
-                        <PropertyValue Property="Dimensions">
-                            <Collection>
-                                <PropertyPath>CreationDate</PropertyPath>
-                            </Collection>
-                        </PropertyValue>
-                        <PropertyValue Property="DimensionAttributes">
-                            <Collection>
-                                <Record Type="UI.ChartDimensionAttributeType">
-                                    <PropertyValue Property="Dimension" PropertyPath="CreationDate" />
-                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category" />
-                                </Record>
-                            </Collection>
-                        </PropertyValue>
-                        <PropertyValue Property="Measures">
-                            <Collection>
-                                <PropertyPath>NetAmount</PropertyPath>
-                            </Collection>
-                        </PropertyValue>
-                        <PropertyValue Property="MeasureAttributes">
-                            <Collection>
-                                <Record Type="UI.ChartMeasureAttributeType">
-                                    <PropertyValue Property="Measure" PropertyPath="NetAmount" />
-                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1" />
-                                </Record>
-                            </Collection>
-                        </PropertyValue>
-                    </Record>
-                </Annotation>
-
-                <!-- ========================================================
-                     CHART 2: Top 5 nhà cung cấp theo số PO (Bar Chart)
-                     ======================================================== -->
-                <Annotation Term="UI.Chart" Qualifier="ChartTopVendors">
-                    <Record Type="UI.ChartDefinitionType">
-                        <PropertyValue Property="Title" String="Top 5 Vendors by PO Count" />
-                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Bar" />
-                        <PropertyValue Property="Dimensions">
-                            <Collection>
-                                <!-- Đã sửa: VendorName -> SupplierName -->
-                                <PropertyPath>SupplierName</PropertyPath>
-                            </Collection>
-                        </PropertyValue>
-                        <PropertyValue Property="DimensionAttributes">
-                            <Collection>
-                                <Record Type="UI.ChartDimensionAttributeType">
-                                    <!-- Đã sửa: VendorName -> SupplierName -->
-                                    <PropertyValue Property="Dimension" PropertyPath="SupplierName" />
-                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category" />
-                                </Record>
-                            </Collection>
-                        </PropertyValue>
-                        <PropertyValue Property="Measures">
-                            <Collection>
-                                <PropertyPath>POCount</PropertyPath>
-                            </Collection>
-                        </PropertyValue>
-                        <PropertyValue Property="MeasureAttributes">
-                            <Collection>
-                                <Record Type="UI.ChartMeasureAttributeType">
-                                    <PropertyValue Property="Measure" PropertyPath="POCount" />
-                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1" />
-                                </Record>
-                            </Collection>
-                        </PropertyValue>
-                    </Record>
-                </Annotation>
-
-                <!-- ========================================================
-                     CHART 3: Tỷ lệ PO Approved vs Total (Stacked Column)
-                     ======================================================== -->
-                <Annotation Term="UI.Chart" Qualifier="ChartApprovalRate">
-                    <Record Type="UI.ChartDefinitionType">
-                        <PropertyValue Property="Title" String="PO Approval: Approved vs Total" />
-                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/ColumnStacked" />
-                        <PropertyValue Property="Dimensions">
-                            <Collection>
-                                <PropertyPath>CreationDate</PropertyPath>
-                            </Collection>
-                        </PropertyValue>
-                        <PropertyValue Property="DimensionAttributes">
-                            <Collection>
-                                <Record Type="UI.ChartDimensionAttributeType">
-                                    <PropertyValue Property="Dimension" PropertyPath="CreationDate" />
-                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category" />
-                                </Record>
-                            </Collection>
-                        </PropertyValue>
-                        <PropertyValue Property="Measures">
-                            <Collection>
-                                <PropertyPath>ApprovedCount</PropertyPath>
-                                <PropertyPath>POCount</PropertyPath>
-                            </Collection>
-                        </PropertyValue>
-                        <PropertyValue Property="MeasureAttributes">
-                            <Collection>
-                                <Record Type="UI.ChartMeasureAttributeType">
-                                    <PropertyValue Property="Measure" PropertyPath="ApprovedCount" />
-                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1" />
-                                </Record>
-                                <Record Type="UI.ChartMeasureAttributeType">
-                                    <PropertyValue Property="Measure" PropertyPath="POCount" />
-                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1" />
-                                </Record>
-                            </Collection>
-                        </PropertyValue>
-                    </Record>
-                </Annotation>
-
-                <!-- ========================================================
-                     CHART 4: Top 10 Materials đặt hàng nhiều nhất (Bar)
-                     ======================================================== -->
-                <Annotation Term="UI.Chart" Qualifier="ChartTopMaterials">
-                    <Record Type="UI.ChartDefinitionType">
-                        <PropertyValue Property="Title" String="Top 10 Most Ordered Materials" />
-                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Bar" />
-                        <PropertyValue Property="Dimensions">
-                            <Collection>
-                                <PropertyPath>Material</PropertyPath>
-                            </Collection>
-                        </PropertyValue>
-                        <PropertyValue Property="DimensionAttributes">
-                            <Collection>
-                                <Record Type="UI.ChartDimensionAttributeType">
-                                    <PropertyValue Property="Dimension" PropertyPath="Material" />
-                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category" />
-                                </Record>
-                            </Collection>
-                        </PropertyValue>
-                        <PropertyValue Property="Measures">
-                            <Collection>
-                                <PropertyPath>POCount</PropertyPath>
-                            </Collection>
-                        </PropertyValue>
-                        <PropertyValue Property="MeasureAttributes">
-                            <Collection>
-                                <Record Type="UI.ChartMeasureAttributeType">
-                                    <PropertyValue Property="Measure" PropertyPath="POCount" />
-                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1" />
-                                </Record>
-                            </Collection>
-                        </PropertyValue>
-                    </Record>
-                </Annotation>
-
-                <!-- ========================================================
-                     CHART 5: Số lượng PO theo FRGZU (Column Chart)
-                     ======================================================== -->
-                <Annotation Term="UI.Chart" Qualifier="ChartPOByReleaseStatus">
-                    <Record Type="UI.ChartDefinitionType">
-                        <PropertyValue Property="Title" String="PO Count by Pur Group (FRGZU)" />
-                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Column" />
-                        <PropertyValue Property="Dimensions">
-                            <Collection>
-                                <PropertyPath>ReleaseComplete</PropertyPath>
-                            </Collection>
-                        </PropertyValue>
-                        <PropertyValue Property="DimensionAttributes">
-                            <Collection>
-                                <Record Type="UI.ChartDimensionAttributeType">
-                                    <PropertyValue Property="Dimension" PropertyPath="ReleaseComplete" />
-                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category" />
-                                </Record>
-                            </Collection>
-                        </PropertyValue>
-                        <PropertyValue Property="Measures">
-                            <Collection>
-                                <PropertyPath>POCount</PropertyPath>
-                            </Collection>
-                        </PropertyValue>
-                        <PropertyValue Property="MeasureAttributes">
-                            <Collection>
-                                <Record Type="UI.ChartMeasureAttributeType">
-                                    <PropertyValue Property="Measure" PropertyPath="POCount" />
-                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1" />
-                                </Record>
-                            </Collection>
-                        </PropertyValue>
-                    </Record>
-                </Annotation>
-
-                <!-- ========================================================
-                     LINE ITEM (Table columns)
-                     ======================================================== -->
+                <!-- ══════════════════════════════════════════════════════
+                     LINE ITEM (cột trong bảng)
+                     Không thêm 4 trường PlantVendor/DateVendor/MatVendor/RelVendor
+                     vì chúng chỉ là Visual Filter, không cần hiện trong bảng
+                     ══════════════════════════════════════════════════════ -->
                 <Annotation Term="UI.LineItem">
                     <Collection>
                         <Record Type="UI.DataField">
@@ -210,13 +38,11 @@
                             <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High" />
                         </Record>
                         <Record Type="UI.DataField">
-                            <!-- Đã sửa: Vendor -> Supplier -->
                             <PropertyValue Property="Value" PropertyPath="Supplier" />
                             <PropertyValue Property="Label" String="Supplier" />
                             <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High" />
                         </Record>
                         <Record Type="UI.DataField">
-                            <!-- Đã sửa: VendorName -> SupplierName -->
                             <PropertyValue Property="Value" PropertyPath="SupplierName" />
                             <PropertyValue Property="Label" String="Supplier Name" />
                         </Record>
@@ -279,30 +105,18 @@
                     </Collection>
                 </Annotation>
 
-                <!-- ========================================================
-                     PRESENTATION VARIANT (5 charts + table)
-                     ======================================================== -->
-                <Annotation Term="UI.PresentationVariant">
-                    <Record Type="UI.PresentationVariantType">
-                        <PropertyValue Property="Visualizations">
-                            <Collection>
-                                <AnnotationPath>@UI.Chart#ChartTopVendors</AnnotationPath>
-                                <AnnotationPath>@UI.Chart#ChartPOValueByMonth</AnnotationPath>
-                                <AnnotationPath>@UI.Chart#ChartApprovalRate</AnnotationPath>
-                                <AnnotationPath>@UI.Chart#ChartTopMaterials</AnnotationPath>
-                                <AnnotationPath>@UI.Chart#ChartPOByReleaseStatus</AnnotationPath>
-                                <AnnotationPath>@UI.LineItem</AnnotationPath>
-                            </Collection>
-                        </PropertyValue>
-                    </Record>
-                </Annotation>
+                <!-- ══════════════════════════════════════════════════════
+                     ĐÃ XOÁ: UI.PresentationVariant (default - không qualifier)
+                     Lý do: Đã định nghĩa trong CDS ZC_PO_ANAL với
+                     @UI.presentationVariant (không qualifier).
+                     Giữ ở EDMX sẽ conflict và override CDS.
+                     ══════════════════════════════════════════════════════ -->
 
-                <!-- ========================================================
+                <!-- ══════════════════════════════════════════════════════
                      SELECTION FIELDS (Filter Bar)
-                     ======================================================== -->
+                     ══════════════════════════════════════════════════════ -->
                 <Annotation Term="UI.SelectionFields">
                     <Collection>
-                        <!-- ĐÃ THÊM: Bắt buộc phải có để OVP truyền Supplier sang ALP -->
                         <PropertyPath>Supplier</PropertyPath>
                         <PropertyPath>Currency</PropertyPath>
                         <PropertyPath>CompanyCode</PropertyPath>
@@ -315,15 +129,15 @@
                     </Collection>
                 </Annotation>
 
-                <!-- ========================================================
-                     VISUAL FILTER CHARTS (4 Biểu đồ)
-                     ======================================================== -->
-                     
+                <!-- ══════════════════════════════════════════════════════
+                     VISUAL FILTER CHARTS (4 biểu đồ lọc nhanh)
+                     ══════════════════════════════════════════════════════ -->
+
                 <!-- 1. Plant & Vendor (Donut) -->
                 <Annotation Term="UI.Chart" Qualifier="ChartFilterPlantVendor">
                     <Record Type="UI.ChartDefinitionType">
                         <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Donut"/>
-                        <PropertyValue Property="Title" String="Filter by Plant &amp; Vendor"/>
+                        <PropertyValue Property="Title" String="Filter by Plant &amp; Supplier"/>
                         <PropertyValue Property="Dimensions">
                             <Collection><PropertyPath>PlantVendor</PropertyPath></Collection>
                         </PropertyValue>
@@ -353,7 +167,7 @@
                 <Annotation Term="UI.Chart" Qualifier="ChartFilterDateVendor">
                     <Record Type="UI.ChartDefinitionType">
                         <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Line"/>
-                        <PropertyValue Property="Title" String="Trend by Date &amp; Vendor"/>
+                        <PropertyValue Property="Title" String="Trend by Date &amp; Supplier"/>
                         <PropertyValue Property="Dimensions">
                             <Collection><PropertyPath>DateVendor</PropertyPath></Collection>
                         </PropertyValue>
@@ -383,7 +197,7 @@
                 <Annotation Term="UI.Chart" Qualifier="ChartFilterRelVendor">
                     <Record Type="UI.ChartDefinitionType">
                         <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Donut"/>
-                        <PropertyValue Property="Title" String="Filter by FRGZU &amp; Vendor"/>
+                        <PropertyValue Property="Title" String="Filter by FRGZU &amp; Supplier"/>
                         <PropertyValue Property="Dimensions">
                             <Collection><PropertyPath>RelVendor</PropertyPath></Collection>
                         </PropertyValue>
@@ -413,7 +227,7 @@
                 <Annotation Term="UI.Chart" Qualifier="ChartFilterMatVendor">
                     <Record Type="UI.ChartDefinitionType">
                         <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Bar"/>
-                        <PropertyValue Property="Title" String="Filter by Material &amp; Vendor"/>
+                        <PropertyValue Property="Title" String="Filter by Material &amp; Supplier"/>
                         <PropertyValue Property="Dimensions">
                             <Collection><PropertyPath>MatVendor</PropertyPath></Collection>
                         </PropertyValue>
@@ -439,7 +253,7 @@
                     </Record>
                 </Annotation>
 
-                <!-- PresentationVariants cho Visual Filters -->
+                <!-- PresentationVariants cho 4 Visual Filters -->
                 <Annotation Term="UI.PresentationVariant" Qualifier="PV_PlantVendor">
                     <Record Type="UI.PresentationVariantType">
                         <PropertyValue Property="Visualizations">
@@ -474,13 +288,12 @@
 
             </Annotations>
 
-            <!-- ========================================================
-                 VALUE LISTS & TEXT DISPLAY TÙY CHỈNH CHO FILTER 
-                 (Phần bạn cần chú ý nhất - Đã thêm Text và TextArrangement)
-                 ======================================================== -->
-                 
+            <!-- ══════════════════════════════════════════════════════════
+                 VALUE LISTS cho 4 trường Visual Filter
+                 Common.Text giúp hiển thị nhãn thân thiện hơn
+                 ══════════════════════════════════════════════════════════ -->
+
             <Annotations Target="cds_zsd_po_anal.POAnalyType/PlantVendor">
-                <!-- Chỗ này giúp Fiori chỉ hiển thị chữ Plant ngắn gọn thay vì nguyên cụm PlantVendor dài thòng -->
                 <Annotation Term="Common.Text" Path="Plant">
                     <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly" />
                 </Annotation>
@@ -504,7 +317,6 @@
             </Annotations>
 
             <Annotations Target="cds_zsd_po_anal.POAnalyType/DateVendor">
-                <!-- Chỗ này hiển thị ngày thay vì Date-Vendor -->
                 <Annotation Term="Common.Text" Path="CreationDate">
                     <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly" />
                 </Annotation>
@@ -528,7 +340,6 @@
             </Annotations>
 
             <Annotations Target="cds_zsd_po_anal.POAnalyType/RelVendor">
-                <!-- Chỗ này hiển thị Release (FRGZU) thay vì Rel-Vendor -->
                 <Annotation Term="Common.Text" Path="ReleaseComplete">
                     <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly" />
                 </Annotation>
@@ -552,7 +363,6 @@
             </Annotations>
 
             <Annotations Target="cds_zsd_po_anal.POAnalyType/MatVendor">
-                <!-- Chỗ này hiển thị Material thay vì Material-Vendor -->
                 <Annotation Term="Common.Text" Path="Material">
                     <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly" />
                 </Annotation>
@@ -578,3 +388,4 @@
         </Schema>
     </edmx:DataServices>
 </edmx:Edmx>
+
