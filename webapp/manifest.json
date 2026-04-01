@@ -59,11 +59,11 @@
                             "Supplier": {
                                 "required": false
                             },
-                            "CreatedDate": {
-                                "renameTo": "CreationDate"
+                            "CreationDate": {
+                                "required": false
                             },
-                            "PurchGroup": {
-                                "renameTo": "PurchasingGroup"
+                            "PurchasingGroup": {
+                                "required": false
                             },
                             "Material": {
                                 "required": false
@@ -168,7 +168,7 @@
                         "condensedTableLayout": true,
                         "showGoButtonOnFilterBar": true,
                         "autoHide": true,
-                        "smartVariantManagement": false,
+                        "smartVariantManagement": true,
                         "considerSelectionVariant": true,
                         "tableSettings": {
                             "multiSelect": false,
