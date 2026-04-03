@@ -51,25 +51,60 @@
                     "signature": {
                         "parameters": {
                             "CompanyCode": {
-                                "required": false
+                                "required": false,
+                                "renameTo": "CompanyCode",
+                                "launcherValue": {
+                                    "format": "plain"
+                                }
                             },
                             "Currency": {
-                                "required": false
+                                "required": false,
+                                "renameTo": "Currency",
+                                "launcherValue": {
+                                    "format": "plain"
+                                }
                             },
                             "Supplier": {
-                                "required": false
+                                "required": false,
+                                "renameTo": "Supplier",
+                                "launcherValue": {
+                                    "format": "plain"
+                                }
                             },
                             "CreationDate": {
-                                "required": false
+                                "required": false,
+                                "renameTo": "CreationDate",
+                                "launcherValue": {
+                                    "format": "plain"
+                                }
                             },
                             "PurchasingGroup": {
-                                "required": false
+                                "required": false,
+                                "renameTo": "PurchasingGroup",
+                                "launcherValue": {
+                                    "format": "plain"
+                                }
                             },
                             "Material": {
-                                "required": false
+                                "required": false,
+                                "renameTo": "Material",
+                                "launcherValue": {
+                                    "format": "plain"
+                                }
                             },
                             "CreatedBy": {
-                                "required": false
+                                "required": false,
+                                "renameTo": "CreatedBy",
+                                "launcherValue": {
+                                    "format": "plain"
+                                }
+                            },
+                            "Plant": {
+                                "required": false,
+                                "renameTo": "Plant",
+                                "launcherValue": {
+                                    "format": "plain"
+                                }
                             }
                         },
                         "additionalParameters": "allowed"
@@ -154,7 +189,8 @@
         "settings": {
             "applySortAndFiltersFromSelectionVariant": true,
             "considerSelectionVariant": true,
-            "considerAnalyticalParameters": true
+            "considerAnalyticalParameters": true,
+            "forceGlobalRefresh": true
         },
         "pages": {
             "AnalyticalListPage|POAnaly": {
@@ -171,6 +207,8 @@
                         "considerSelectionVariant": true,
                         "applySortAndFiltersFromSelectionVariant": true,
                         "considerAnalyticalParameters": true,
+                        "defaultContentValue": "table",
+                        "lazyLoadVisualFilter": false,
                         "tableSettings": {
                             "multiSelect": false,
                             "type": "ResponsiveTable"
