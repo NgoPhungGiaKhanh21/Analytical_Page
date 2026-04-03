@@ -152,9 +152,7 @@
                 "type": "sap.ui.model.resource.ResourceModel",
                 "settings": {
                     "bundleName": "dashboard.i18n.i18n",
-                    "supportedLocales": [
-                        "en"
-                    ],
+                    "supportedLocales": ["en"],
                     "fallbackLocale": "en"
                 }
             },
@@ -186,12 +184,6 @@
     },
     "sap.ui.generic.app": {
         "_version": "1.3.0",
-        "settings": {
-            "applySortAndFiltersFromSelectionVariant": true,
-            "considerSelectionVariant": true,
-            "considerAnalyticalParameters": true,
-            "forceGlobalRefresh": true
-        },
         "pages": {
             "AnalyticalListPage|POAnaly": {
                 "entitySet": "POAnaly",
@@ -204,9 +196,6 @@
                         "showGoButtonOnFilterBar": true,
                         "autoHide": true,
                         "smartVariantManagement": true,
-                        "considerSelectionVariant": true,
-                        "applySortAndFiltersFromSelectionVariant": true,
-                        "considerAnalyticalParameters": true,
                         "defaultContentValue": "table",
                         "lazyLoadVisualFilter": false,
                         "tableSettings": {
