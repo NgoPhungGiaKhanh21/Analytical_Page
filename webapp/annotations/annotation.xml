@@ -106,30 +106,6 @@
                 </Annotation>
 
                 <!-- ══════════════════════════════════════════════════════
-                     ĐÃ XOÁ: UI.PresentationVariant (default - không qualifier)
-                     Lý do: Đã định nghĩa trong CDS ZC_PO_ANAL với
-                     @UI.presentationVariant (không qualifier).
-                     Giữ ở EDMX sẽ conflict và override CDS.
-                     ══════════════════════════════════════════════════════ -->
-
-                <!-- ══════════════════════════════════════════════════════
-                     SELECTION FIELDS (Filter Bar)
-                     ══════════════════════════════════════════════════════ -->
-                <Annotation Term="UI.SelectionFields">
-                    <Collection>
-                        <PropertyPath>Supplier</PropertyPath>
-                        <PropertyPath>Currency</PropertyPath>
-                        <PropertyPath>CompanyCode</PropertyPath>
-                        <PropertyPath>PlantVendor</PropertyPath>
-                        <PropertyPath>DateVendor</PropertyPath>
-                        <PropertyPath>MatVendor</PropertyPath>
-                        <PropertyPath>RelVendor</PropertyPath>
-                        <PropertyPath>MaterialGroup</PropertyPath>
-                        <PropertyPath>PurchasingGroup</PropertyPath>
-                    </Collection>
-                </Annotation>
-
-                <!-- ══════════════════════════════════════════════════════
                      VISUAL FILTER CHARTS (4 biểu đồ lọc nhanh)
                      ══════════════════════════════════════════════════════ -->
 
