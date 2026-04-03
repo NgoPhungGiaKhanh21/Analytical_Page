@@ -169,6 +169,8 @@
                         "autoHide": true,
                         "smartVariantManagement": true,
                         "considerSelectionVariant": true,
+                        "applySortAndFiltersFromSelectionVariant": true,
+                        "considerAnalyticalParameters": true,
                         "tableSettings": {
                             "multiSelect": false,
                             "type": "ResponsiveTable"
